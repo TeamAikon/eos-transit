@@ -1,37 +1,33 @@
+import OreIdJS from '@apimarket/oreid-js';
+import OreJS from '@open-rights-exchange/orejs';
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs2';
 import { WalletProvider, NetworkConfig, WalletAuth } from 'eos-transit';
 
+const { OreId } = OreIdJS;
+const { OreJs } = OreIdJS;
 const { scatter } = ScatterJS;
 
+const orejs = {}; // TODO: new OreJs();
 scatter.loadPlugin(new ScatterEOS());
 
 export function makeSignatureProvider(network: NetworkConfig) {
-  // 3rd param: beta3 = true
-  return scatter.eosHook({ ...network, blockchain: 'eos'}, null, true);
+  // TODO: Return a signatureProvider instance...
+  //orejs.signatureProvider();
+  return {};
 }
 
-// TODO: Ability to pass Scatter options
-export function scatterWalletProvider() {
+export function oreidWalletProvider() {
   return function makeWalletProvider(network: NetworkConfig): WalletProvider {
     // Connection
 
     function connect(appName: string): Promise<any> {
-      return scatter
-        .connect(
-          appName,
-          { initTimeout: 10000 }
-        )
-        .then((connected: boolean) => {
-          if (connected) return true;
-          return Promise.reject('Cannot connect to Scatter');
-        });
+      // TODO: Redirect to OreID...
+      // let url = await OreId.getOreIdAuthUrl();
+      Promise.resolve();
     }
 
     function disconnect(): Promise<any> {
-      // TODO: Uncomment when Scatter implements this correctly
-      // (probably by using `socket.close()` instead of `socket.disconnect()`)
-      // scatter.disconnect();
       return Promise.resolve(true);
     }
 
@@ -39,48 +35,26 @@ export function scatterWalletProvider() {
 
     async function login(accountName?: string): Promise<WalletAuth> {
       try {
-        const identity = await scatter.getIdentity({
-          accounts: [{ ...network, blockchain: 'eos' }]
-        });
-
-        if (!identity) {
-          return Promise.reject('No identity obtained from Scatter');
-        }
-
-        const account =
-          (identity &&
-            identity.accounts &&
-            (identity.accounts as any[]).find(x => x.blockchain === 'eos')) ||
-          void 0;
-
-        if (!account) {
-          return Promise.reject(
-            'No account data obtained from Scatter identity'
-          );
-        }
-
-        return {
-          accountName: account.name,
-          permission: account.authority,
-          publicKey: account.publicKey
-        };
+        // TODO: Fetch the users account info...
+        //let accountInfo = await OreId.fetchAccountInfo();
+        Promise.resolve({});
       } catch (error) {
-        console.log('[scatter]', error);
+        console.log('[oreid]', error);
         return Promise.reject(error);
       }
     }
 
     function logout(accountName?: string): Promise<any> {
-      return scatter.forgetIdentity();
+      return Promise.resolve(true);
     }
 
     const walletProvider: WalletProvider = {
-      id: 'scatter',
+      id: 'oreid',
       meta: {
-        name: 'Scatter Desktop',
-        shortName: 'Scatter',
+        name: 'OreID Web',
+        shortName: 'OreID',
         description:
-          'Scatter Desktop application that keeps your private keys secure'
+          'OreID web application that keeps your private keys secure'
       },
       signatureProvider: makeSignatureProvider(network),
       connect,
@@ -93,4 +67,4 @@ export function scatterWalletProvider() {
   };
 }
 
-export default scatterWalletProvider;
+export default oreidWalletProvider;

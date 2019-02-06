@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apimarket/oreid-js": "^1.0.5",
+    "@open-rights-exchange/orejs": "^1.7.0",
     "eos-transit": "^0.0.8",
     "scatterjs-core": "2.7.7",
     "scatterjs-plugin-eosjs2": "1.5.0"
