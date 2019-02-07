@@ -33,7 +33,6 @@ const config: Configuration = {
       'window.WAL': ['eos-transit', 'default'],
       'window.OreIdJS': ['@apimarket/oreid-js', 'default'],
       'window.OreJS': ['@open-rights-exchange/orejs', 'default'],
-      'window.ScatterJS': ['scatterjs-core', 'default'],
       'window.ScatterEOS': ['scatterjs-plugin-eosjs2', 'default']
     })
   ],
@@ -41,7 +40,6 @@ const config: Configuration = {
     'eos-transit': 'WAL',
     '@apimarket/oreid-js': 'OreIdJS',
     '@open-rights-exchange/orejs': 'OreJS',
-    'scatterjs-core': 'ScatterJS',
     'scatterjs-plugin-eosjs2': 'ScatterEOS'
   },
   stats: {
