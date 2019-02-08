@@ -1,14 +1,26 @@
 import OreIdJS from '@apimarket/oreid-js';
 import OreJS from '@open-rights-exchange/orejs';
 import ScatterEOS from 'scatterjs-plugin-eosjs2';
-import { WalletProvider, NetworkConfig, WalletAuth } from 'eos-transit';
+import { NetworkConfig, WalletAuth, WalletProvider } from 'eos-transit';
 
 const { OreId } = OreIdJS;
 const { OreJs } = OreIdJS;
 const scatterEos = new ScatterEOS();
 
 export function makeSignatureProvider(network: NetworkConfig) {
-  return scatterEos.hookProvider(network, null, true);
+    return {
+        requiredFields:{},
+        getAvailableKeys:async () => {
+          return []
+        },
+        sign:async (signargs: any) => {
+            //const { account, transaction, signCallbackUrl, chain, state, broadcast } = signargs;
+            //let signUrl = await oreId.getOreIdSignUrl({ account, transaction, signCallbackUrl, chain, state, broadcast });
+            //console.log("signUrl:", signUrl);
+            // window.location = signUrl;
+            return []
+        }
+    }
 }
 
 export function oreidWalletProvider(config: any) {
@@ -19,7 +31,6 @@ export function oreidWalletProvider(config: any) {
 
     function connect(appName: string): Promise<any> {
       // INFO: Scatter is using this for app detection
-      // NOTE: So, perhaps we should just return true
       return Promise.resolve(true);
     }
 
