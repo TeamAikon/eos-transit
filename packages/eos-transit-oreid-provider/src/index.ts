@@ -11,9 +11,11 @@ export function makeSignatureProvider(network: NetworkConfig) {
   return scatterEos.hookProvider(network, null, true);
 }
 
-export function oreidWalletProvider(config: Object) {
+export function oreidWalletProvider(config: any) {
   return function makeWalletProvider(network: NetworkConfig): WalletProvider {
     // Connection
+    const { apiKey, oreIdUrl } = config;
+    const oreId = new OreId({ apiKey, oreIdUrl });
 
     function connect(appName: string): Promise<any> {
       // INFO: Scatter is using this for app detection
@@ -27,10 +29,12 @@ export function oreidWalletProvider(config: Object) {
 
     // Authentication
 
-    async function login(accountName?: string): Promise<WalletAuth> {
+    async function login(loginType?: string): Promise<WalletAuth> {
       try {
-        // TODO: Fetch the users account info...
-        //let accountInfo = await OreId.fetchAccountInfo();
+        const { authCallback, backgroundColor } = config;
+        const authUrl = await oreId.getOreIdAuthUrl({ loginType, callbackUrl: authCallback, backgroundColor });
+        console.log("authUrl:", authUrl);
+        //window.location = authUrl;
         return {
           accountName: 'namenamename',
           permission: 'active',
@@ -51,15 +55,13 @@ export function oreidWalletProvider(config: Object) {
       meta: {
         name: 'OreID Web',
         shortName: 'OreID',
-        description:
-          'OreID web application that keeps your private keys secure'
+        description: 'OreID web application that keeps your private keys secure',
       },
       signatureProvider: makeSignatureProvider(network),
       connect,
       disconnect,
       login,
-      logout,
-      ...config
+      logout
     };
 
     return walletProvider;
