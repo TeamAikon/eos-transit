@@ -1,11 +1,7 @@
 import OreIdJS from '@apimarket/oreid-js';
-import OreJS from '@open-rights-exchange/orejs';
-import ScatterEOS from 'scatterjs-plugin-eosjs2';
 import { NetworkConfig, WalletAuth, WalletProvider } from 'eos-transit';
 
 const { OreId } = OreIdJS;
-const { OreJs } = OreIdJS;
-const scatterEos = new ScatterEOS();
 
 export function makeSignatureProvider(network: NetworkConfig) {
     return {

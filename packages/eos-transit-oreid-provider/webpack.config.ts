@@ -31,16 +31,12 @@ const config: Configuration = {
   plugins: [
     new ProvidePlugin({
       'window.WAL': ['eos-transit', 'default'],
-      'window.OreIdJS': ['@apimarket/oreid-js', 'default'],
-      'window.OreJS': ['@open-rights-exchange/orejs', 'default'],
-      'window.ScatterEOS': ['scatterjs-plugin-eosjs2', 'default']
+      'window.OreIdJS': ['@apimarket/oreid-js', 'default']
     })
   ],
   externals: {
     'eos-transit': 'WAL',
-    '@apimarket/oreid-js': 'OreIdJS',
-    '@open-rights-exchange/orejs': 'OreJS',
-    'scatterjs-plugin-eosjs2': 'ScatterEOS'
+    '@apimarket/oreid-js': 'OreIdJS'
   },
   stats: {
     colors: true
