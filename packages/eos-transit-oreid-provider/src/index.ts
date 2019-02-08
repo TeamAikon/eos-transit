@@ -8,17 +8,16 @@ const { OreJs } = OreIdJS;
 const scatterEos = new ScatterEOS();
 
 export function makeSignatureProvider(network: NetworkConfig) {
-  //return new eosjs.JsSignatureProvider([]);
   return scatterEos.hookProvider(network, null, true);
 }
 
-export function oreidWalletProvider() {
+export function oreidWalletProvider(config: Object) {
   return function makeWalletProvider(network: NetworkConfig): WalletProvider {
     // Connection
 
     function connect(appName: string): Promise<any> {
-      // TODO: Redirect to OreID...
-      // let url = await OreId.getOreIdAuthUrl();
+      // INFO: Scatter is using this for app detection
+      // NOTE: So, perhaps we should just return true
       return Promise.resolve(true);
     }
 
@@ -59,7 +58,8 @@ export function oreidWalletProvider() {
       connect,
       disconnect,
       login,
-      logout
+      logout,
+      ...config
     };
 
     return walletProvider;
