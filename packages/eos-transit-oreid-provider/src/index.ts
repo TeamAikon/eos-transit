@@ -25,9 +25,22 @@ export function oreidWalletProvider(config: any) {
     const { apiKey, oreIdUrl } = config;
     const oreId = new OreId({ apiKey, oreIdUrl });
 
-    function connect(appName: string): Promise<any> {
+    async function connect(): Promise<any> {
       // INFO: Scatter is using this for app detection
-      return Promise.resolve(true);
+      try {
+        let { account, state, errors } = oreId.handleAuthResponse(window.location.href);
+        console.log("oreidWalletProvider:", account, errors);
+        if (account && !errors) {
+          console.log("oreidWalletProvider::getUser", account);
+          let userInfo = await oreId.getUser(account);
+          console.log("userInfo:", userInfo);
+          return userInfo;
+        }
+        return {};
+      } catch (error) {
+        console.log('[oreid]', error);
+        return Promise.reject(error);
+      }
     }
 
     function disconnect(): Promise<any> {
@@ -40,7 +53,7 @@ export function oreidWalletProvider(config: any) {
       try {
         const { authCallback, backgroundColor } = config;
         const authUrl = await oreId.getOreIdAuthUrl({ loginType, callbackUrl: authCallback, backgroundColor });
-        console.log("authUrl:", authUrl);
+        //console.log("authUrl:", authUrl);
         //window.location = authUrl;
         return {
           accountName: 'namenamename',

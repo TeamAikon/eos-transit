@@ -1,4 +1,5 @@
 {
+  "name": "eos-transit",
   "private": true,
   "scripts": {
     "bootstrap": "lerna link && lerna exec npm install",
@@ -12,6 +13,7 @@
     "test": ""
   },
   "devDependencies": {
+    "@babel/runtime": "^7.0.0-beta.55",
     "@types/node": "^10.12.6",
     "@types/uuid": "^3.4.4",
     "@types/webpack": "^4.4.18",

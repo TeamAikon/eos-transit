@@ -16,6 +16,7 @@
     "lint": "../../node_modules/.bin/tslint -c ../../tslint.json -p ./tsconfig.json"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55",
     "eos-transit": "^0.0.8",
     "scatterjs-core": "2.7.7",
     "scatterjs-plugin-eosjs2": "1.5.0"
