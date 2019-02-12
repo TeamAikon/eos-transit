@@ -77,7 +77,7 @@ export interface WalletProvider {
 
 export type MakeWalletProviderFn = (network: NetworkConfig) => WalletProvider;
 
-// State-tracket Wallet instance
+// State-tracked Wallet instance
 
 export interface WalletState {
   connecting?: boolean;
