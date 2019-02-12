@@ -16,7 +16,6 @@
     "lint": "../../node_modules/.bin/tslint -c ../../tslint.json -p ./tsconfig.json"
   },
   "dependencies": {
-    "@apimarket/oreid-js": "^1.0.5",
     "@babel/runtime": "^7.0.0-beta.55",
     "eos-transit": "^0.0.8"
   },
