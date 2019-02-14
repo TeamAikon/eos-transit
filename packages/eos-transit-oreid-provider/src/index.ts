@@ -3,17 +3,17 @@ import { NetworkConfig, WalletAuth, WalletProvider } from 'eos-transit';
 
 const { OreId } = OreIdJS;
 
-export function makeSignatureProvider(network: NetworkConfig) {
+export function makeSignatureProvider(network: NetworkConfig, oreId: any) {
     return {
         requiredFields:{},
         getAvailableKeys:async () => {
           return []
         },
         sign:async (signargs: any) => {
-            //const { account, transaction, signCallbackUrl, chain, state, broadcast } = signargs;
-            //let signUrl = await oreId.getOreIdSignUrl({ account, transaction, signCallbackUrl, chain, state, broadcast });
-            //console.log("signUrl:", signUrl);
-            // window.location = signUrl;
+            const { account, transaction, signCallbackUrl, chain, state, broadcast } = signargs;
+            let signUrl = await oreId.getOreIdSignUrl({ account, transaction, signCallbackUrl, chain, state, broadcast });
+            console.log("signUrl:", signUrl);
+            window.location = signUrl;
             return []
         }
     }
@@ -25,49 +25,15 @@ export function oreidWalletProvider(config: any) {
     const { appId, apiKey, oreIdUrl } = config;
     const oreId = new OreId({ appId, apiKey, oreIdUrl });
 
-    // INFO: Looks for the userInfo in cookie/local storage
-    async function fetchAccountNameLocally() {
-      console.log("Fetching userInfo locally...");
-      let { accountName } = await oreId.getUser();
-      console.log("Fetched userInfo locally:", accountName);
-      return accountName;
-    }
-
-    // INFO: Fetches userInfo from a remote, if the current URL matches the callback
-    async function fetchAccountNameRemotely() {
-      const url = window.location.href;
-      const isCallbackRegex = new RegExp(`${config.authCallback}`);
-      if (isCallbackRegex.test(url)) {
-        console.log("Fetching userInfo remotely...");
-        const { account, errors } = await oreId.handleAuthResponse(url);
-        console.log("Fetched userInfo remotely:", account);
-        if (errors) {
-          //throw new Error(errors.toString()); // TODO: Check and refactor
-          console.log("Failed to fetch remotely:", errors);
-        }
-        return account;
-      }
-      return null;
-    }
-
-    // INFO: Retrieves userInfo remotely, if applicable, otherwise checks locally
-    async function fetchAccountName() {
-      let accountName = await fetchAccountNameRemotely();
-      if (!accountName) {
-        accountName = await fetchAccountNameLocally();
-      }
-      return accountName;
+    // INFO: Sends the user to OreID, and returns them with their accountName
+    async function loginUser() {
+      const { authCallback, backgroundColor, loginType } = config;
+      let oreIdAuthUrl = await oreId.getOreIdAuthUrl({ loginType, callbackUrl:authCallback, backgroundColor });
+      window.location = oreIdAuthUrl;
     }
 
     // INFO: Attempts to find the accountName, and if successfull, calls login to retrieve account info from the chain
     async function connect(): Promise<any> {
-      let accountName = await fetchAccountName();
-
-      console.log("connect::accountName", accountName);
-      if (accountName) {
-        await login(accountName);
-      }
-
       Promise.resolve(true);
     }
 
@@ -81,13 +47,14 @@ export function oreidWalletProvider(config: any) {
     // However, if no accountName is specified, the the user is redirected to OreID
     async function login(accountName?: string): Promise<WalletAuth> {
       try {
-        if (!accountName) {
-          const { authCallback, backgroundColor, loginType } = config;
-          let oreIdAuthUrl = await oreId.getOreIdAuthUrl({ loginType, callbackUrl:authCallback, backgroundColor });
-          window.location = oreIdAuthUrl;
+        if (accountName) {
+          const account = await oreId.getUserInfoFromApi(accountName);
+          return { accountName: account.accountName, permission: '', publicKey: '' };
         }
 
-        return { accountName: accountName || '', permission: '', publicKey: '' };
+        // If no accountName is specified, send the user to OreID to login...
+        await loginUser();
+        return { accountName: '', permission: '', publicKey: '' };
       } catch (error) {
         console.log('[oreid]', error);
         return Promise.reject(error);
@@ -107,7 +74,7 @@ export function oreidWalletProvider(config: any) {
         shortName: 'OreID',
         description: 'OreID web application that keeps your private keys secure',
       },
-      signatureProvider: makeSignatureProvider(network),
+      signatureProvider: makeSignatureProvider(network, oreId),
       connect,
       disconnect,
       login,
