@@ -32,7 +32,6 @@ export function oreidWalletProvider(config: any) {
       window.location = oreIdAuthUrl;
     }
 
-    // INFO: Attempts to find the accountName, and if successfull, calls login to retrieve account info from the chain
     async function connect(): Promise<any> {
       Promise.resolve(true);
     }
@@ -61,9 +60,7 @@ export function oreidWalletProvider(config: any) {
       }
     }
 
-    // INFO: Will remove locally stored userInfo
     async function logout(): Promise<any> {
-      await oreId.logout(); //clears local user state (stored in local storage or cookie)
       return Promise.resolve(true);
     }
 
