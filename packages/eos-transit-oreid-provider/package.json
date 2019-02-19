@@ -1,8 +1,8 @@
 {
   "name": "eos-transit-oreid-provider",
   "version": "0.0.8",
-  "description": "Scatter app wallet provider for WAL:E",
-  "license": "UNLICENSED",
+  "description": "ORE ID wallet provider for eos transit",
+  "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib",
