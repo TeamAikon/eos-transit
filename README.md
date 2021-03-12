@@ -6,6 +6,19 @@ Instead of focusing on supporting specific signature providers one by one, devel
 
 👉🏻 **Please see the "Quick Start" and thorough guide in the [`eos-transit` package docs](packages/eos-transit)**
 
+## AIKON Fork Verion
+
+2021-March - This repo is a fork from the main eos-transit project. It implements a small change to allow use with non-Eos blockchains. For non-Eos providers, pass in the new isNotEosNetwork param = true. This will bypass eos-specific rpc calls in the wallet object. 
+This version is published as an npm package under @aikon/eos-transit
+
+Example usage for non-Eos provider:
+```
+    const walletContext = initAccessContext({
+      ...
+      isNotEosNetwork: true
+    })
+```
+
 
 ## Features
 

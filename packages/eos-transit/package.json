@@ -1,7 +1,7 @@
 {
-	"name": "eos-transit",
+	"name": "@aikon/eos-transit",
 	"version": "4.0.7",
-	"description": "Wallet Access Layer for EOS Blockchain Networks",
+	"description": "Wallet Access Layer for EOS Blockchain Networks - modified by AIKON to support non-eos plug-ins",
 	"license": "UNLICENSED",
 	"main": "lib/index.js",
 	"module": "lib/index.js",

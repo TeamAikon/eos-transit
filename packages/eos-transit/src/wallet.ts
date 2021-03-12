@@ -47,7 +47,8 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 
 	const { getState } = _stateContainer;
 	const eosApi = new Api({
-		rpc: ctx.eosRpc,
+		// Api() constructor requires a JsonRpc - even if we dont want one for non-eos, so create empty JsonRpc here
+		rpc: ctx.eosRpc ? ctx.eosRpc : new JsonRpc(''),
 		chainId: ctx.network.chainId,
 		signatureProvider: walletProvider.signatureProvider
 	});
@@ -65,7 +66,17 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 			accountFetchError: false,
 			accountFetchErrorMessage: void 0
 		}));
-
+    // NonEOS Support: if ctx.eosRpc is undefined,
+	// return AccountInfo with just accountName
+    if(!ctx.eosRpc){
+      const accountInfo: AccountInfo = { name:accountName }
+      _stateContainer.updateState(state => ({
+        ...state,
+        accountFetching: false,
+        accountInfo
+      }));
+      return Promise.resolve(accountInfo);
+    }
 		return ctx.eosRpc
 			.get_account(accountName)
 			.then((accountData: any) => {
@@ -179,7 +190,7 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 						if (foundInCache > -1) cached = true;
 					}
 	
-					if (key && !cached) {
+					if (key && !cached && ctx.eosRpc) {
 						let p = ctx.eosRpc.history_get_key_accounts(key).then(async (accountData) => {
 							// let keyIndex = keys.findIndex((y: string) => y == key);
 	
@@ -191,7 +202,7 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 	
 							if (accountData.account_names.length > 0) {
 								for (let account of accountData.account_names) {
-									await ctx.eosRpc.get_account(account).then(async (accountInfo) => {
+									await (ctx.eosRpc as JsonRpc).get_account(account).then(async (accountInfo) => {
 										for (let permission of accountInfo.permissions) {
 											for (let permissionKey of permission.required_auth.keys) {
 												if (permissionKey.key == key) {
@@ -213,7 +224,7 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 				}
 	
 				await Promise.all(promises).then((results) => {
-					accountsDataObjToMerge.keyToAccountMap = results;
+					accountsDataObjToMerge.keyToAccountMap = results || [];
 	
 					console.log('accountsDataObjToMerge');
 					console.log({ accountsDataObjToMerge });
