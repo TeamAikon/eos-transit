@@ -1,0 +1,36 @@
+{
+	"name": "eos-transit-lynx-provider",
+	"version": "4.0.7",
+	"description": "EOS Lynx wallet provider for eos-transit",
+	"license": "UNLICENSED",
+	"main": "lib/index.js",
+	"module": "lib/index.js",
+	"types": "lib",
+	"scripts": {
+		"echo": "echo \"================== eos-lynx-ledger-provider ===================\"",
+		"installpkg": "yarn echo && npm install",
+		"clean": "rm -rf lib && rm -rf umd",
+		"prebuild": "yarn clean",
+		"build": "tsc",
+		"build-production": "yarn build && TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack",
+		"watch": "tsc -w",
+		"test": "",
+		"lint": "tslint -c ../../tslint.json -p ./tsconfig.json"
+	},
+	"dependencies": {
+		"eos-transit": "^4.0.7",
+		"eosjs": "^20.0.0"
+	},
+	"devDependencies": {
+		"@babel/plugin-transform-regenerator": "^7.0.0",
+		"webpack": "^4.25.1"
+	},
+	"prettier": {
+		"singleQuote": true,
+		"printWidth": 80,
+		"tabWidth": 2,
+		"useTabs": false,
+		"bracketSpacing": true
+	},
+	"gitHead": "2540a6a5c87f61e4487d67673a4579bec0ea8feb"
+}

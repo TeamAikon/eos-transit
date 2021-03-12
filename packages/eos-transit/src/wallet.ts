@@ -1,288 +1,430 @@
-import { Api } from 'eosjs';
+import { Api, JsonRpc } from 'eosjs';
 import uuid from 'uuid/v4';
 import {
-  WalletAccessContext,
-  WalletProvider,
-  Wallet,
-  WalletState,
-  AccountInfo,
-  StateListener,
-  StateUnsubscribeFn
+	WalletAccessContext,
+	WalletProvider,
+	Wallet,
+	WalletState,
+	AccountInfo,
+	StateListener,
+	StateUnsubscribeFn,
+	DiscoveryAccount,
+	DiscoveryData,
+	DiscoveryOptions
 } from './types';
 import { makeStateContainer } from './stateContainer';
 import { getErrorMessage } from './util';
+import { strict } from 'assert';
+import { stringToSymbol } from 'eosjs/dist/eosjs-serialize';
+import { stat } from 'fs';
 
 const DEFAULT_STATE: WalletState = {
-  connecting: false,
-  connected: false,
-  connectionError: false,
-  connectionErrorMessage: void 0,
-  auth: void 0,
-  authenticating: false,
-  authenticated: false,
-  authenticationConfirmed: false,
-  authenticationError: false,
-  authenticationErrorMessage: void 0,
-  accountInfo: void 0,
-  accountFetching: false,
-  accountFetchError: false,
-  accountFetchErrorMessage: void 0
+	connecting: false,
+	connected: false,
+	connectionError: false,
+	connectionErrorMessage: void 0,
+	auth: void 0,
+	authenticating: false,
+	authenticated: false,
+	authenticationConfirmed: false,
+	authenticationError: false,
+	authenticationErrorMessage: void 0,
+	accountInfo: void 0,
+	accountFetching: false,
+	accountFetchError: false,
+	accountFetchErrorMessage: void 0
 };
 
-export function initWallet(
-  walletProvider: WalletProvider,
-  ctx: WalletAccessContext
-): Wallet {
-  const _instanceId = uuid();
-  const _stateContainer = makeStateContainer({
-    ...DEFAULT_STATE
-  });
+export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessContext): Wallet {
+	const _instanceId = uuid();
+	const _stateContainer = makeStateContainer({
+		...DEFAULT_STATE
+	});
 
-  const { getState } = _stateContainer;
-  const eosApi = new Api({
-    rpc: ctx.eosRpc,
-    chainId: ctx.network.chainId,
-    signatureProvider: walletProvider.signatureProvider
-  });
+	//let discoverData: DiscoveryData = { keyToAccountMap: [], keys: [] };
+	let discoverData: DiscoveryData = { keyToAccountMap: [] };
+	let counter = 0;
 
-  // Account helpers
+	const { getState } = _stateContainer;
+	const eosApi = new Api({
+		rpc: ctx.eosRpc,
+		chainId: ctx.network.chainId,
+		signatureProvider: walletProvider.signatureProvider
+	});
 
-  function fetchAccountInfo(accountName?: string): Promise<AccountInfo> {
-    if (!accountName) {
-      return Promise.reject(
-        'No `accountName` was passed in order to fetch the account info'
-      );
-    }
+	// Account helpers
 
-    _stateContainer.updateState(state => ({
-      ...state,
-      accountFetching: true,
-      accountFetchError: false,
-      accountFetchErrorMessage: void 0
-    }));
+	function fetchAccountInfo(accountName?: string): Promise<AccountInfo> {
+		if (!accountName) {
+			return Promise.reject('No `accountName` was passed in order to fetch the account info');
+		}
 
-    return ctx.eosRpc
-      .get_account(accountName)
-      .then((accountData: any) => {
-        const accountInfo: AccountInfo = { ...accountData };
-        _stateContainer.updateState(state => ({
-          ...state,
-          accountFetching: false,
-          accountInfo
-        }));
+		_stateContainer.updateState((state) => ({
+			...state,
+			accountFetching: true,
+			accountFetchError: false,
+			accountFetchErrorMessage: void 0
+		}));
 
-        return accountInfo;
-      })
-      .catch((error: any) => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          accountFetching: false,
-          accountInfo: void 0,
-          accountFetchError: true,
-          accountFetchErrorMessage: getErrorMessage(error)
-        }));
+		return ctx.eosRpc
+			.get_account(accountName)
+			.then((accountData: any) => {
+				const accountInfo: AccountInfo = { ...accountData };
+				_stateContainer.updateState((state) => ({
+					...state,
+					accountFetching: false,
+					accountInfo
+				}));
 
-        return Promise.reject(error);
-      });
-  }
+				return accountInfo;
+			})
+			.catch((error: any) => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					accountFetching: false,
+					accountInfo: void 0,
+					accountFetchError: true,
+					accountFetchErrorMessage: getErrorMessage(error)
+				}));
 
-  // Connection
+				return Promise.reject(error);
+			});
+	}
 
-  function connect(): Promise<boolean> {
-    _stateContainer.updateState(state => ({
-      ...state,
-      connected: false,
-      connecting: true,
-      connectionError: false,
-      connectionErrorMessage: void 0
-    }));
+	// Connection
 
-    return walletProvider
-      .connect(ctx.appName)
-      .then(() => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          connecting: false,
-          connected: true
-        }));
+	function connect(): Promise<boolean> {
+		_stateContainer.updateState((state) => ({
+			...state,
+			connected: false,
+			connecting: true,
+			connectionError: false,
+			connectionErrorMessage: void 0
+		}));
 
-        return true;
-      })
-      .catch(error => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          connecting: false,
-          connectionError: true,
-          connectionErrorMessage: getErrorMessage(error)
-        }));
+		return walletProvider
+			.connect(ctx.appName)
+			.then(() => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					connecting: false,
+					connected: true
+				}));
 
-        return Promise.reject(error);
-      });
-  }
+				return true;
+			})
+			.catch((error) => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					connecting: false,
+					connectionError: true,
+					connectionErrorMessage: getErrorMessage(error)
+				}));
 
-  function disconnect(): Promise<boolean> {
-    return walletProvider.disconnect().then(() => {
-      _stateContainer.updateState(state => ({
-        ...state,
-        connecting: false,
-        connected: false,
-        connectionError: false,
-        connectionErrorMessage: void 0
-      }));
+				return Promise.reject(error);
+			});
+	}
 
-      return true;
-    });
-  }
+	async function discover(discoveryOptions: DiscoveryOptions): Promise<any> {
+		let accountsDataObjToMerge: DiscoveryData = { keyToAccountMap: [] };
 
-  // Authentication
+		let discoverResult = await walletProvider.discover(discoveryOptions).then(async (walletDiscoveryData) => {
+			console.log('walletDiscoveryData');
+			console.log(walletDiscoveryData);
+			//Merge any properties that were returned from the wallets specific discovery process. This allows the wallet to add custom properties to the response if needed.
+			accountsDataObjToMerge = { ...accountsDataObjToMerge, ...walletDiscoveryData };
+			delete accountsDataObjToMerge.keys;
 
-  function login(accountName?: string): Promise<AccountInfo> {
-    _stateContainer.updateState(state => ({
-      ...state,
-      accountInfo: void 0,
-      authenticated: false,
-      authenticationConfirmed: false,
-      authenticating: true,
-      authenticationError: false,
-      authenticationErrorMessage: void 0
-    }));
+			// let keys: string[] = []; // If the discover fuction in the wallet doesn't return any keys we know the login function is going to have to prompt the user to select one.
+			// if (walletDiscoveryData.keys) {
+			// 	keys = walletDiscoveryData.keys;
+			// }
 
-    return walletProvider
-      .login(accountName)
-      .then(walletAuth => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          auth: walletAuth,
-          authenticated: true,
-          authenticating: false
-        }));
+			// A callback of this kind can be supplied to the discover function, which will allow the caller to modify the list of keys before the account lookup process happens. 
+		    // The feature was added so that key returned from the Ledger device can be modified to have a ENU prefix when in use with the the enumivo chain 
+			if(discoveryOptions.keyModifierFunc !== undefined) {
+				const modifiedData = discoveryOptions.keyModifierFunc(walletDiscoveryData);
+				walletDiscoveryData = modifiedData;
+			}
 
-        return fetchAccountInfo(walletAuth.accountName);
-      })
-      .then((accountInfo: AccountInfo) => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          accountInfo
-        }));
+			//If the user has supplied a KeyLookupFunc then they intend to do the account lookup themseves. 
+			//We will provide them with the discovery data and expect them to call the callback function once they have done the account lookups.
+			if(discoveryOptions.keyLookupFunc !== undefined) {
+				// discoveryOptions.keyLookupFunc(walletDiscoveryData);
+				discoveryOptions.keyLookupFunc(walletDiscoveryData, function(discoveredAccounts: DiscoveryAccount[]) {
 
-        return accountInfo;
-      })
-      .catch((error: any) => {
-        _stateContainer.updateState(state => ({
-          ...state,
-          authenticating: false,
-          authenticationError: true,
-          authenticationErrorMessage: getErrorMessage(error)
-        }));
+					accountsDataObjToMerge.keyToAccountMap = discoveredAccounts;
+	
+					console.log('accountsDataObjToMerge(keyLookupFunc)');
+					console.log({ accountsDataObjToMerge });
+	
+					return Promise.resolve({ accountsDataObjToMerge });
 
-        return Promise.reject(error);
-      });
-  }
+				});				
+			} 
+			else 
+			{
 
-  function logout(): Promise<boolean> {
-    return walletProvider.disconnect().then(() => {
-      _stateContainer.updateState(state => ({
-        ...state,
-        accountInfo: void 0,
-        authenticating: false,
-        authenticated: false,
-        authenticationError: false,
-        authenticationErrorMessage: void 0
-      }));
+				let promises = [];
 
-      return true;
-    });
-  }
+				for (let keyData of walletDiscoveryData.keys) {
+					let key = keyData.key;
+					let keyIndex = keyData.index;
+	
+					let cached = false;
+					if (discoverData.keyToAccountMap) {
+						let foundInCache = discoverData.keyToAccountMap.findIndex(
+							(y: DiscoveryAccount) => y.index == keyIndex
+						);
+						if (foundInCache > -1) cached = true;
+					}
+	
+					if (key && !cached) {
+						let p = ctx.eosRpc.history_get_key_accounts(key).then(async (accountData) => {
+							// let keyIndex = keys.findIndex((y: string) => y == key);
+	
+							let accountEntry: DiscoveryAccount = {
+								index: keyIndex,
+								key: key,
+								accounts: []
+							};
+	
+							if (accountData.account_names.length > 0) {
+								for (let account of accountData.account_names) {
+									await ctx.eosRpc.get_account(account).then(async (accountInfo) => {
+										for (let permission of accountInfo.permissions) {
+											for (let permissionKey of permission.required_auth.keys) {
+												if (permissionKey.key == key) {
+													accountEntry.accounts.push({
+														account: account,
+														authorization: permission.perm_name
+													});
+												}
+											}
+										}
+									});
+								}
+							}
+	
+							return accountEntry;
+						});
+						promises.push(p);
+					}
+				}
+	
+				await Promise.all(promises).then((results) => {
+					accountsDataObjToMerge.keyToAccountMap = results;
+	
+					console.log('accountsDataObjToMerge');
+					console.log({ accountsDataObjToMerge });
+	
+					return Promise.resolve({ accountsDataObjToMerge });
+				});
 
-  const wallet: Wallet = {
-    _instanceId,
-    ctx,
-    provider: walletProvider,
-    eosApi,
+			}
 
-    get state() {
-      return getState() || { ...DEFAULT_STATE };
-    },
+		});
 
-    // Shortcut state accessors
+		counter++;
+		if (discoverData.keyToAccountMap.length == 0) {
+			discoverData = { ...discoverData, ...accountsDataObjToMerge };
+		} else {
+			accountsDataObjToMerge.keyToAccountMap.forEach((newKey) => {
+				discoverData.keyToAccountMap.push(newKey);
+				// discoverData.keys = accountsDataObjToMerge.keys;
+			});
+		}
 
-    get auth() {
-      const state = getState();
-      return (state && state.auth) || void 0;
-    },
+		// console.log(discoverData);
+		return Promise.resolve(discoverData);
+	}
 
-    get accountInfo() {
-      const state = getState();
-      return (state && state.accountInfo) || void 0;
-    },
+	function disconnect(): Promise<boolean> {
+		return walletProvider.disconnect().then(() => {
+			_stateContainer.updateState((state) => ({
+				...state,
+				connecting: false,
+				connected: false,
+				connectionError: false,
+				connectionErrorMessage: void 0
+			}));
 
-    get connected(): boolean {
-      const state = getState();
-      return (state && state.connected) || false;
-    },
+			return true;
+		});
+	}
 
-    get authenticated(): boolean {
-      const state = getState();
-      return (state && state.authenticated) || false;
-    },
+	// Authentication
 
-    get inProgress(): boolean {
-      const state = getState();
-      if (!state) return false;
-      const { connecting, authenticating, accountFetching } = state;
-      return !!(connecting || authenticating || accountFetching);
-    },
+	function login(accountName?: string, authorization?: string): Promise<AccountInfo> {
+		_stateContainer.updateState((state) => ({
+			...state,
+			accountInfo: void 0,
+			authenticated: false,
+			authenticationConfirmed: false,
+			authenticating: true,
+			authenticationError: false,
+			authenticationErrorMessage: void 0
+		}));
 
-    get active(): boolean {
-      const state = getState();
-      if (!state) return false;
-      const { connected, authenticated, accountInfo } = state;
-      return !!(connected && authenticated && accountInfo);
-    },
+		let index = -1;
+		let key = undefined;
 
-    get hasError(): boolean {
-      const state = getState();
-      if (!state) return false;
-      const { connectionError, authenticationError, accountFetchError } = state;
-      return !!(connectionError || authenticationError || accountFetchError);
-    },
+		//If we've done discovery then we should be able to find the account trying to login in the discoverData
+		if (discoverData.keyToAccountMap.length > 0) {
+			// console.log('see if we can find ' + accountName + ' ' + authorization);
+			if (accountName && authorization) {
+				discoverData.keyToAccountMap.forEach((indexObj) => {
+					let found = indexObj.accounts.find((account) => {
+						return account.account == accountName && account.authorization == authorization;
+					});
+					if (found) {
+						index = indexObj.index;
+						key = indexObj.key;
+					}
+				});
+			}
+			if (!key) {
+				throw 'Loging was not able to determine the Key and Index for ' + authorization + '@' + accountName;
+			}
+		}
 
-    get errorMessage(): string | undefined {
-      const state = getState();
-      if (!state) return void 0;
-      if (!wallet.hasError) return void 0;
-      const {
-        connectionErrorMessage,
-        authenticationErrorMessage,
-        accountFetchErrorMessage
-      } = state;
-      return (
-        connectionErrorMessage ||
-        authenticationErrorMessage ||
-        accountFetchErrorMessage ||
-        'Wallet connection error'
-      );
-    },
+		return walletProvider
+			.login(accountName, authorization, index, key)
+			.then((walletAuth) => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					auth: walletAuth,
+					authenticated: true,
+					authenticating: false
+				}));
 
-    connect,
-    disconnect,
-    login,
-    logout,
-    fetchAccountInfo,
+				return fetchAccountInfo(walletAuth.accountName);
+			})
+			.then((accountInfo: AccountInfo) => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					accountInfo
+				}));
 
-    terminate(): Promise<boolean> {
-      return logout()
-        .then(disconnect)
-        .then(() => {
-          ctx.detachWallet(wallet);
-          return true;
-        });
-    },
+				return accountInfo;
+			})
+			.catch((error: any) => {
+				_stateContainer.updateState((state) => ({
+					...state,
+					authenticating: false,
+					authenticationError: true,
+					authenticationErrorMessage: getErrorMessage(error)
+				}));
 
-    subscribe(listener: StateListener<WalletState>): StateUnsubscribeFn {
-      return _stateContainer.subscribe(listener);
-    }
-  };
+				return Promise.reject(error);
+			});
+	}
 
-  return wallet;
+	function logout(): Promise<boolean> {
+		return walletProvider.logout().then(() => {
+			_stateContainer.updateState((state) => ({
+				...state,
+				accountInfo: void 0,
+				authenticating: false,
+				authenticated: false,
+				authenticationError: false,
+				authenticationErrorMessage: void 0
+			}));
+
+			return true;
+		});
+	}
+
+	function signArbitrary(data: string, userMessage: string): Promise<string> {
+		return walletProvider.signArbitrary(data, userMessage);
+	}
+
+	const wallet: Wallet = {
+		_instanceId,
+		ctx,
+		provider: walletProvider,
+		eosApi,
+
+		get state() {
+			return getState() || { ...DEFAULT_STATE };
+		},
+
+		// Shortcut state accessors
+
+		get auth() {
+			const state = getState();
+			return (state && state.auth) || void 0;
+		},
+
+		get accountInfo() {
+			const state = getState();
+			return (state && state.accountInfo) || void 0;
+		},
+
+		get connected(): boolean {
+			const state = getState();
+			return (state && state.connected) || false;
+		},
+
+		get authenticated(): boolean {
+			const state = getState();
+			return (state && state.authenticated) || false;
+		},
+
+		get inProgress(): boolean {
+			const state = getState();
+			if (!state) return false;
+			const { connecting, authenticating, accountFetching } = state;
+			return !!(connecting || authenticating || accountFetching);
+		},
+
+		get active(): boolean {
+			const state = getState();
+			if (!state) return false;
+			const { connected, authenticated, accountInfo } = state;
+			return !!(connected && authenticated && accountInfo);
+		},
+
+		get hasError(): boolean {
+			const state = getState();
+			if (!state) return false;
+			const { connectionError, authenticationError, accountFetchError } = state;
+			return !!(connectionError || authenticationError || accountFetchError);
+		},
+
+		get errorMessage(): string | undefined {
+			const state = getState();
+			if (!state) return void 0;
+			if (!wallet.hasError) return void 0;
+			const { connectionErrorMessage, authenticationErrorMessage, accountFetchErrorMessage } = state;
+			return (
+				connectionErrorMessage ||
+				authenticationErrorMessage ||
+				accountFetchErrorMessage ||
+				'Wallet connection error'
+			);
+		},
+
+		connect,
+		discover,
+		disconnect,
+		login,
+		logout,
+		fetchAccountInfo,
+
+		terminate(): Promise<boolean> {
+			return logout().then(disconnect).then(() => {
+				ctx.detachWallet(wallet);
+				return true;
+			});
+		},
+
+		subscribe(listener: StateListener<WalletState>): StateUnsubscribeFn {
+			return _stateContainer.subscribe(listener);
+		},
+
+		signArbitrary
+	};
+
+	return wallet;
 }

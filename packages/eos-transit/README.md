@@ -157,10 +157,34 @@ await wallet.connect();
 
 // wallet.connected === true
 
-// Now that we are connected, lets authenticate (in case of a Scatter app,
-// it does it right after connection, so this is more for the state tracking
-// and for WAL to fetch the EOS account data for us)
-await wallet.login();
+// If we're dealing with a device that has multiple keys (eg. Ledger Nano S), then we'll need to discover which keys / accounts are available on the device. This will return an object containing an array of accounts ... you'll need the user to select which account he want to use if this is the case.
+let discoveryData = await wallet.discover({ pathIndexList: [ 0,1,2 ] });
+
+// Note you can keep caling discover at any point in time to extent the index list. transit will only query the device and the network for new index's. 
+let discoveryData = await wallet.discover({ pathIndexList: [ 0,1,2,3 ] });
+// You can either pass the full list or just the new index you're afer. Either way it'll append that keys info to the discoveryData object and return the entire dataset. 
+let discoveryData = await wallet.discover({ pathIndexList: [ 150 ] });
+
+
+// If we have more than one account the user can select from we'll need to prompt the user.
+// Note that the Login function is called with the specific account details when multiple accounts are available.
+if (discoveryData.keyToAccountMap.length > 0) {
+
+  // If discover returned multiple acconts then you'll need to promot the user to select which account he'd like to use. 
+  // accountName, authorization are taken from the  discoveryData object. See the example of this object further down on this page.
+
+  await wallet.login(accountName, authorization)
+
+} else {
+
+  // Now that we are connected, lets authenticate (in case of a Scatter app,
+  // it does it right after connection, so this is more for the state tracking
+  // and for WAL to fetch the EOS account data for us)
+  await wallet.login(); 
+
+  
+}
+
 
 // wallet.authenticated === true
 // wallet.auth === { accountName: 'some_user', permission: 'active', publicKey: '...' }
@@ -524,6 +548,69 @@ wallet.connect().then(() => {
   });
 });
 
+
+wallet.connect().then(() => {
+  console.log('Successfully connected!');
+
+    wallet.discover({ pathIndexList: [ 0,1,2,3 ] }).then((discoveryData: DiscoveryData) => {
+    console.log('Discovery successfully completed!');
+
+    // IF the wallet support discovery.
+    // The discover process will return an object (see example object below) that contains:
+    // 1. The keys found on the device
+    // 2. The EOS Accounts linked to those keys. 
+    //
+    // If the keyToAccountMap contains entries, then the user should be asked which account they'd like to use. 
+    // Note that the only functional difference is that:
+    // When logging in with ledger you supply the account you want to login
+    // When logging in with scatter your just calling login() and allowing the user to select an account
+    if (discoveryData.keyToAccountMap.length > 0) {
+      // We're just going to hard code the selection for the demo.
+      const index = 0;
+      const keyObj = discoveryData.keyToAccountMap[index];
+
+      const accountName = keyObj.accounts[0].account;
+      const authorization = keyObj.accounts[0].authorization;
+
+
+      wallet.login(accountName, authorization).then(accountInfo => {
+        console.log(`Successfully logged in as ${accountInfo.name}!`);
+      });
+    } else {
+      // 0 keys returned, we need to user to select an account
+      wallet.login().then(accountInfo => {
+        console.log(`Successfully logged in as ${accountInfo.name}!`);
+      });
+    }
+  });
+});
+
+
+```
+The object returned from the discover() method looks as follows:
+
+```
+{
+  keyToAccountMap: [{
+    index: 0,
+    key: XXXX,
+    accounts: [{
+        account: ‘eosio’,
+        authorization: ‘owner’
+    }]
+  },{
+    index: 1,
+    key: YYYY,
+    accounts: [{
+        account: ‘anotherAccount’,
+        authorization: ‘active’
+    },{
+        account: ‘anotherAccount’,
+        authorization: ‘owner’
+    }]
+  }]
+}
+
 ```
 
 After the user is logged in, the `auth` metadata is available on the `wallet.auth` property. It contains `accountName`, `permission` (like `active`, `owner`, etc) and account's `publicKey`.
@@ -598,7 +685,7 @@ wallet.eosApi
 });
 ```
 
-Nothing special here really. Any other `eosjs` `Api` method can be used wuthout issues on the instance exposed at the `eosApi` property.
+Nothing special here really. Any other `eosjs` `Api` method can be used without issues on the instance exposed at the `eosApi` property.
 
 
 ### State tracking
