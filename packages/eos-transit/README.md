@@ -7,6 +7,19 @@ This allows to concentrate on building awesome apps instead of setting up `eosjs
 > *Disclaimer: This library is in early alpha. The core API has stabilized but some changes and extension should be expected. But we encourage to give it a try when building your decentralized apps and feel free to share any thoughts, doubts and concerns. Any kind of feedback is highly appreciated.*
 
 
+## AIKON Fork Verion
+
+2021-March - This repo is a fork from the main eos-transit project. It implements a small change to allow use with non-Eos blockchains. For non-Eos providers, pass in the new isNotEosNetwork param = true. This will bypass eos-specific rpc calls in the wallet object. 
+This version is published as an npm package under @aikon/eos-transit
+
+Example usage for non-Eos provider:
+```
+    const walletContext = initAccessContext({
+      ...
+      isNotEosNetwork: true
+    })
+```
+
 ## Features
 
 - Easy to use API
@@ -32,6 +45,7 @@ This is a monorepo that is managed with [`lerna`](https://github.com/lerna/lerna
 
 ## Table of Contents
 - [`eos-transit` - Wallet Access Layer for EOS core package.](#eos-transit---wallet-access-layer-for-eos-core-package)
+  - [AIKON Fork Verion](#aikon-fork-verion)
   - [Features](#features)
   - [Packages](#packages)
   - [Table of Contents](#table-of-contents)
