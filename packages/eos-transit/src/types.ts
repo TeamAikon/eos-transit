@@ -2,16 +2,18 @@ import { ApiInterfaces, JsonRpc, Api } from 'eosjs';
 import { type } from 'os';
 
 // Core helper types
-
+/** NonEOS Support: Eos specific field become optional
+ * To allow non-Eos platforms to return just account name
+ */
 export interface AccountInfo {
 	name: string;
-	publicKey: string;
+	publicKey?: string;
 	core_liquid_balance?: string;
 	ram_quota?: number;
-	cpu_limit: {
+	cpu_limit?: {
 		available: number;
 	};
-	net_limit: {
+	net_limit?: {
 		available: number;
 	};
 
@@ -152,11 +154,14 @@ export interface Wallet {
 }
 
 // Wallet access context
-
+/** NonEOS Support: if isNotEosNetwork is false:
+ * 		Eos specific rpc calls are skipped
+ */
 export interface WalletAccessContextOptions {
 	appName: string;
 	network: NetworkConfig;
 	walletProviders: MakeWalletProviderFn[];
+	isNotEosNetwork?: boolean;
 }
 
 export interface WalletAccessContextState {
@@ -165,7 +170,7 @@ export interface WalletAccessContextState {
 
 export interface WalletAccessContext {
 	appName: string;
-	eosRpc: JsonRpc;
+	eosRpc?: JsonRpc;
 	network: NetworkConfig;
 	initWallet(walletProvider: WalletProvider | string): Wallet;
 	addWalletProvider(walletProvider: MakeWalletProviderFn): void;

@@ -25,7 +25,7 @@ function findProviderById(walletProviders: WalletProvider[], providerId: string)
 }
 
 export function initAccessContext(options: WalletAccessContextOptions): WalletAccessContext {
-	const { appName, network } = options;
+	const { appName, network, isNotEosNetwork } = options;
 	const _makeWalletProviderFns = options.walletProviders;
 	const walletProviders = _makeWalletProviderFns.map((makeWalletProvider) => makeWalletProvider(network));
 
@@ -41,8 +41,11 @@ export function initAccessContext(options: WalletAccessContextOptions): WalletAc
 	const _walletUnsubscribeFns: Map<string, UnsubscribeFn> = new Map();
 	const stateUnsubscribe = _stateContainer.subscribe(_handleUpdate);
 
-	const eosRpcUrl = getNetworkUrl(network);
-	const eosRpc = new JsonRpc(eosRpcUrl);
+  let eosRpc;
+  if(!isNotEosNetwork){
+    const eosRpcUrl = getNetworkUrl(network);
+    eosRpc = new JsonRpc(eosRpcUrl);
+  }
 
 	const ctx: WalletAccessContext = {
 		appName,
