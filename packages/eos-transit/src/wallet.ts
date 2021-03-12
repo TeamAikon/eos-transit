@@ -47,7 +47,8 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 
 	const { getState } = _stateContainer;
 	const eosApi = new Api({
-		rpc: ctx.eosRpc? ctx.eosRpc: new JsonRpc(''),
+		// Api() constructor requires a JsonRpc - even if we dont want one for non-eos, so create empty JsonRpc here
+		rpc: ctx.eosRpc ? ctx.eosRpc : new JsonRpc(''),
 		chainId: ctx.network.chainId,
 		signatureProvider: walletProvider.signatureProvider
 	});
