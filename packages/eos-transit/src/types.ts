@@ -80,6 +80,15 @@ export interface WalletProviderMetadata {
 	name?: string;
 	shortName?: string;
 	description?: string;
+	/** whether wallet provider is an interface layer to talk to wallets (e.g. Web3 Provider for Eth) */
+	isWalletInterface?: boolean,
+	/** If provider isWalletInterface=true, then contains info about the specific wallet used e.g. metamask */
+	walletMetadata?: {
+		id?: string;
+		name?: string;
+		shortName?: string;
+		description?: string;
+	},
 }
 
 export interface WalletProvider {
