@@ -669,7 +669,7 @@ async-eventemitter@^0.2.2:
   dependencies:
     async "^2.4.0"
 
-"async-eventemitter@github:ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c":
+async-eventemitter@ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c:
   version "0.2.3"
   resolved "https://codeload.github.com/ahultgren/async-eventemitter/tar.gz/fa06e39e56786ba541c180061dbf2c0a5bbf951c"
   dependencies:
@@ -1975,7 +1975,7 @@ eosjs-ecc@4.0.4:
     ecurve "^1.0.5"
     randombytes "^2.0.5"
 
-eosjs@^16.0.2, eosjs@^16.0.6, eosjs@^16.0.7:
+eosjs@^16.0.2, eosjs@^16.0.7:
   version "16.0.7"
   resolved "https://registry.npmjs.org/eosjs/-/eosjs-16.0.7.tgz#9771d10f9ca1665b25750cbd9d9543db61dae78b"
   dependencies:
@@ -4063,11 +4063,10 @@ scatterjs-core@^1.1.1:
     es6-promise "^4.2.4"
     get-random-values "^1.2.0"
 
-scatterjs-plugin-eosjs@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/scatterjs-plugin-eosjs/-/scatterjs-plugin-eosjs-1.1.1.tgz#bcec7e079c8e979c1d61fa7ebd02d1a06f1757df"
-  dependencies:
-    eosjs "^16.0.6"
+scatterjs-plugin-eosjs@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/scatterjs-plugin-eosjs/-/scatterjs-plugin-eosjs-1.5.1.tgz#1a64a6de490433a51f8a235c4018c2c49628675a"
+  integrity sha512-57999d6FzzzATV2cz6vTVTljP0hE2IZV/LR+MggADm9CuipGLGhkPmVicZs8HNWlPV5unE5uD7FrrYaqlLm9iQ==
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"

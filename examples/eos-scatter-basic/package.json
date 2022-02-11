@@ -18,7 +18,7 @@
     "minireset.css": "^0.0.3",
     "scatter-js": "^2.5.2",
     "scatterjs-core": "^1.1.1",
-    "scatterjs-plugin-eosjs": "^1.1.1"
+    "scatterjs-plugin-eosjs": "^1.5.1"
   },
   "devDependencies": {
     "node-sass": "^4.9.3"
