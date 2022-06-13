@@ -38,7 +38,7 @@
 		"cross-env": "^5.2.0",
 		"eos-transit": "^4.0.7",
 		"fcbuffer": "^2.2.2",
-		"lerna": "^3.9.1",
+		"lerna": "^5.1.2",
 		"shx": "^0.3.2",
 		"ts-loader": "^5.3.3",
 		"ts-node": "^7.0.1",
