@@ -2154,6 +2154,11 @@
     eosjs "20.0.0"
     penpal "3.0.7"
 
+"@snyk/protect@^1.995.0":
+  version "1.995.0"
+  resolved "https://registry.yarnpkg.com/@snyk/protect/-/protect-1.995.0.tgz#5b89b0a6481afdc6cc3bcee240ac52c5a49bdf52"
+  integrity sha512-Lm+FdjcWAsq5n+YSWwlqr4S8LfA20Hj3nOcNS7AT8CJjLKAoi+dXde7nBWc+qpTjA49Rzh5+EHN91nKDV38Qfg==
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz#dadcb6218503532d6884b210e7f3c502caaa44b1"
@@ -2358,6 +2363,15 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/ledgerhq__hw-transport-node-hid@^4.22.1":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@types/ledgerhq__hw-transport-node-hid/-/ledgerhq__hw-transport-node-hid-4.22.2.tgz#f3de58b9b49b461dd96e5bfb646328c242e70aca"
+  integrity sha512-b9dXYEZ8Iijv20LykEVhbThVzSjchMpvj8y/mSsCSP1n7Ncs+YqD8mjEV/bGTks9jAP8CdxhRqOGq+h47/4B9g==
+  dependencies:
+    "@types/ledgerhq__hw-transport" "*"
+    "@types/node" "*"
+    "@types/node-hid" "*"
+
 "@types/ledgerhq__hw-transport-u2f@^4.21.0":
   version "4.21.1"
   resolved "https://registry.yarnpkg.com/@types/ledgerhq__hw-transport-u2f/-/ledgerhq__hw-transport-u2f-4.21.1.tgz#8193aa3199cc5ba6cf7f9d880a88f2993a6c6c3b"
@@ -2370,6 +2384,13 @@
   version "4.21.1"
   resolved "https://registry.yarnpkg.com/@types/ledgerhq__hw-transport/-/ledgerhq__hw-transport-4.21.1.tgz#ceaaeb4fbd91d0244f2e2ef382e352879f4f8f3f"
   integrity sha512-TPsB6seugMHuqGa3xPz4CgjSlmQdVf4VltxHGcdDSG3Fu7nKqD1zZVE+AnULq4oIgs2lIRcGHiDCgN7kZFDeUw==
+  dependencies:
+    "@types/node" "*"
+
+"@types/node-hid@*":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@types/node-hid/-/node-hid-1.3.1.tgz#e84507a35a6f3ece3f6324c21ba9252405758b65"
+  integrity sha512-VPxuGDCoDxOUKrTZPSok7IEmiK4cVLfj8Csu09FtG5uF+eqf1HETERHXQkO02Rk6j6YiiHxp0/DA9R4llvhEzQ==
   dependencies:
     "@types/node" "*"
 
@@ -2461,6 +2482,11 @@
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
+
+"@types/uuid@^7.0.3":
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-7.0.5.tgz#b1d2f772142a301538fae9bdf9cf15b9f2573a29"
+  integrity sha512-hKB88y3YHL8oPOs/CNlaXtjWn93+Bs48sDQR37ZUqG2tLeCS7EA1cmnkKsuQsub9OKEB/y/Rw9zqJqqNSbqVlQ==
 
 "@types/vfile-message@*":
   version "1.0.1"
@@ -2798,26 +2824,26 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-anchor-link-browser-transport@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/anchor-link-browser-transport/-/anchor-link-browser-transport-1.0.1.tgz#f1a79ce87c605bfb0734055324b08fa1a50a2d49"
-  integrity sha512-Vj0MTncMAoB2blEAe6bLeW2ov/66vjDjdy61hnuMquSTE9zfPjbrTE/BefWAbwdwzh6GiIBNxPxNzbtssWHayA==
+anchor-link-browser-transport@^2.0.0:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/anchor-link-browser-transport/-/anchor-link-browser-transport-2.1.3.tgz#7b28f0e54fff733404123d209c68265d6ce202e8"
+  integrity sha512-KZL264nwwFIi10RSKHSUiRYzZoXTbW4QJi9eB4QLaK3uPzXZpO/FPMW/aBPWGgKDqyhAUF0emThaJqKhSVXrGg==
   dependencies:
     qrcode "^1.4.4"
 
-anchor-link@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/anchor-link/-/anchor-link-1.0.1.tgz#a66412af1f2d8631a987bc39bbe75805b6414bcf"
-  integrity sha512-FEc0NGMGFJF4MOgsA3XooTGGnE73XHY5Mdnpso8WJPaHK0Kas6nk5xHYthD/ddmVXMk2zFXkrPTwQ1crvqUwrQ==
+anchor-link@^2.0.0:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/anchor-link/-/anchor-link-2.1.4.tgz#4066b72cb69431c7f2745828d1aabe78de046b1a"
+  integrity sha512-zOy8ujr7SXQx23ShTE2eeGChkuvyuXJ+9oY5yef7vU7/x7U/pSaGXbp2g0SX3ld3zCLDAuaZkBIaUswCWccsag==
   dependencies:
-    eosio-signing-request "^1.1.1"
+    eosio-signing-request "^1.2.0"
     eosjs "^20.0.0"
     eosjs-ecc "^4.0.7"
     fetch-ponyfill "^6.1.0"
     isomorphic-ws "^4.0.1"
     pako "^1.0.10"
-    uuid "^7.0.3"
-    ws "^7.2.3"
+    uuid "^8.1.0"
+    ws "^7.2.5"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -5533,28 +5559,28 @@ eos-metro-transport-u2f@^1.0.12:
   dependencies:
     eos-metro-api "^1.0.17"
 
-eos-transit-anchorlink-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-anchorlink-provider/-/eos-transit-anchorlink-provider-4.0.5.tgz#e3aaaa4a8f066cfb4af20c40a2f0077cdb596104"
-  integrity sha512-oaonH6SmtNIvkAPNNPZw5/vdL7g4WhgCaZE5AUxmwmzmR7+/kzCHUeD3osNpLVCQaAXrb2QUHwfbk0M8pKCMhA==
+eos-transit-anchorlink-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-anchorlink-provider/-/eos-transit-anchorlink-provider-4.0.7.tgz#5fe6738c4f8c5a23aa0a3bcbe2465ae192f5dff9"
+  integrity sha512-7IRZKplcfNGjdifnKsy7kshHlgMuyHZR8kHdK78EpidPeqxeqlC9UKe/0QpopL+C0zOzpe3+CVod5K/CYmbzNQ==
   dependencies:
-    anchor-link "^1.0.0"
-    anchor-link-browser-transport "^1.0.0"
-    eos-transit "^4.0.5"
+    anchor-link "^2.0.0"
+    anchor-link-browser-transport "^2.0.0"
+    eos-transit "^4.0.7"
 
-eos-transit-keycat-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-keycat-provider/-/eos-transit-keycat-provider-4.0.5.tgz#504ec22fdb23776430e30423c2c0939fa19437e5"
-  integrity sha512-qUjq7vzZNmK0g1mBbKCubvELxa+nOdFsLA3GButLJ7n6Y9IZsqmNUsqzJhOhEAu4/LVByR4Fc/LaSlXalKSmBQ==
+eos-transit-keycat-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-keycat-provider/-/eos-transit-keycat-provider-4.0.7.tgz#fea440dd979809f07d71a2a475b10ae2c2cb36b3"
+  integrity sha512-M89WhyZLzLhlz+4mvJuXgiuHEqvSfLQYIdWPokVY9KIMZKnJ3RnhjbzWMkur3qMBQckE9falmFZNZWB2vHrcYg==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
     keycatjs "^0.6.2"
 
-eos-transit-ledger-provider@^4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/eos-transit-ledger-provider/-/eos-transit-ledger-provider-4.0.6.tgz#e48eef13f71bb4779d262fac14e2a4203e99f3a8"
-  integrity sha512-A6OuE70ShZ5TNlDCgZ/JAVRD74LKaS7kAjTed/JeIvnkSElaFKb/640JKJe5x9EXorEFqTF4iYOZg7qGLgRQWQ==
+eos-transit-ledger-provider@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/eos-transit-ledger-provider/-/eos-transit-ledger-provider-4.0.8.tgz#2a3b9d0411f6dc372ffaf3867d7d1226c00a7b9e"
+  integrity sha512-C7DkTIkxVcJaw6HJbR6iiLtAJjvAMHIK+a0YLpgBYRm3xul7h418b85sCm2n9or3QniYPYlS99f53DOacBEjqA==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/runtime" "^7.3.1"
@@ -5564,6 +5590,7 @@ eos-transit-ledger-provider@^4.0.6:
     "@ledgerhq/hw-transport-webauthn" "^4.55.0"
     "@ledgerhq/hw-transport-webusb" "^4.64.1"
     "@types/ledgerhq__hw-transport" "^4.21.0"
+    "@types/ledgerhq__hw-transport-node-hid" "^4.22.1"
     "@types/ledgerhq__hw-transport-u2f" "^4.21.0"
     "@types/webpack" "^4.4.22"
     asn1-ber "^1.0.9"
@@ -5571,7 +5598,7 @@ eos-transit-ledger-provider@^4.0.6:
     babel-polyfill "^6.26.0"
     babel-runtime "^6.26.0"
     cross-env "^5.2.0"
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     fcbuffer "^2.2.2"
     lerna "^3.9.1"
     shx "^0.3.2"
@@ -5581,85 +5608,86 @@ eos-transit-ledger-provider@^4.0.6:
     typescript "^3.2.2"
     webpack-cli "^3.2.1"
 
-eos-transit-lynx-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-lynx-provider/-/eos-transit-lynx-provider-4.0.5.tgz#e2122fe401db58b823ef71733e713cc3547d4166"
-  integrity sha512-k7AojI92xwXFYL25JVN4ViHnZAwRMQmLItD++ksRG2IXYutXp2OkfHNyQVzGUHnjeubAY8r/dzhYBVfCUH0sXg==
+eos-transit-lynx-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-lynx-provider/-/eos-transit-lynx-provider-4.0.7.tgz#730a73d86eebe5f9eda56507e49e4cb7977b1993"
+  integrity sha512-K/JnAW47L7OcN5wK1jYz307AbktQ0UQJBhQZmxyQ8+wjE+UiBpG0WHfnJ5X8e1hwClg7ARph47trsHMM/ia+uw==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit-meetone-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-meetone-provider/-/eos-transit-meetone-provider-4.0.5.tgz#08e6496f0ab6e3b59695f8897b157002a6146bb9"
-  integrity sha512-8jPesnRvR1E2EpBsLqneKAf/6KF1dWCHXZBGAgern9ZCr886GFK18du5GTtCXhPqrJ5JNCbcQ4Ny2gNU1E3mzA==
+eos-transit-meetone-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-meetone-provider/-/eos-transit-meetone-provider-4.0.7.tgz#c6d544669a962d22a8d198dff38dbb66bb7e7dff"
+  integrity sha512-Fvem1QT79L30xZ/WJEueQXeSlbFbVN2HQFWcFsZ6MCXMUW5gQWA/cBxVLUY/3kliTB9iwKV7huJyOKvamuV0/g==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit-metro-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-metro-provider/-/eos-transit-metro-provider-4.0.5.tgz#7fe49fa35a398cc31a743f27eea33f2b06c4906a"
-  integrity sha512-/VUknNN3xgozF6rkA5jfyhkkex0bkcndsTcmS0scVc/yz/H2HziIxUfArwZz/iuEQknrEgi3RRDiIIOqxhFVjw==
+eos-transit-metro-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-metro-provider/-/eos-transit-metro-provider-4.0.7.tgz#483b70e7bbf5837ec3f66c1ef0acd39f6c271017"
+  integrity sha512-p2LT6JrXgmZr5sNSHBo4KPW3yUw6IziK2H1R5saZaKMkoqTXOjkOCnXAcVUu036FuVRmv3RovvdlBHAf8AnPdw==
   dependencies:
     eos-metro-api "^1.0.11"
     eos-metro-transport-u2f "^1.0.12"
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
 
-eos-transit-portis-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-portis-provider/-/eos-transit-portis-provider-4.0.5.tgz#a76c814316dafe8bbdc31809c4b6b1815ae5533c"
-  integrity sha512-PiskxljxVmwO4aahIjWfzOC3lWDgZctwasbg5uaf9+OkAOr3yGt1dhVdCQoKzr0kZ5Cg+B9M5zkl5CFpkOHm3A==
+eos-transit-portis-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-portis-provider/-/eos-transit-portis-provider-4.0.7.tgz#d34d32bfc55da9365e77a8dc1c2af6384f86d09a"
+  integrity sha512-PAD69OMnyTngtljOhu/oQJ9v1Ak6+kU0JoweAwKq8yEwfwZ9HhJPAC0/zqwi8FTSThy2mtyn01U6rf7rluypGQ==
   dependencies:
     "@portis/eos" "^1.0.0-beta.2"
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit-scatter-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-scatter-provider/-/eos-transit-scatter-provider-4.0.5.tgz#1a81202ff724b77aebd54e4c80df2007164932a0"
-  integrity sha512-yU1XHXSqJBQaTE8jMH0qJBmfDH7TnRUr5QMvbqzkw6IRGt+KFeQ6f7q5BIGKgjDPfDgfAJelx7vpMnJ41gLHZQ==
+eos-transit-scatter-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-scatter-provider/-/eos-transit-scatter-provider-4.0.7.tgz#1a66b8806aa8714516578ebbe22a0504c0cf8180"
+  integrity sha512-/ZdVccOFJxUAbGWPUVMcKqcO14r2ZBqO+ktFgRQKKhZh1SldVEslEXpo0ER5+st8gtrwMuqKnuseULp7mXeITQ==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     scatterjs-core "2.7.18"
     scatterjs-plugin-eosjs2 "1.5.0"
 
-eos-transit-simpleos-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-simpleos-provider/-/eos-transit-simpleos-provider-4.0.5.tgz#934f4fa49a2ebf5690ddfede7a1e22e136df9d6d"
-  integrity sha512-VzVWyYtFeaF1F5a6XS/ALFlcHab1Ctu1h5lCG7ehm5ybUYdaD67mfaUpdcwCLO5QUAmQl2fWqAWhby55BVD6FQ==
+eos-transit-simpleos-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-simpleos-provider/-/eos-transit-simpleos-provider-4.0.7.tgz#b63842c75df52c2b39b8650ebce9bf0041dcf714"
+  integrity sha512-d++J8aZRZLByGbeSZI300+1fHk+lxrwj91xQ7Mx7MYJ40s43hAIJrpw7xhtpOf1YXKZ2d9nq9+tyScSbOAn64A==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit-tokenpocket-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-tokenpocket-provider/-/eos-transit-tokenpocket-provider-4.0.5.tgz#cec4ffd78e334c8d19fabf3d91e55909ea9ca96b"
-  integrity sha512-15/Aa0vU8i4fyd7+uOGaeQkIs4SwG5KfCOGTOJWBZZwF3phafR31sQQbLN/t1NBjfJDj9uQTsI3de0X8Y7jasA==
+eos-transit-tokenpocket-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-tokenpocket-provider/-/eos-transit-tokenpocket-provider-4.0.7.tgz#f64a947099cc704cff9fb6a4153ee526b05e52ff"
+  integrity sha512-FLc6pCRrTh3J4HnnpXPIXE40SQAP7/YYkNqmYZl5QhshXoix06/OITyoWd0XUFXxue8pISE61FNmTvpA8Q+Mgw==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit-whalevault-provider@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit-whalevault-provider/-/eos-transit-whalevault-provider-4.0.5.tgz#57bcc1fc21f9ac292781a2189a2005a1de7a556c"
-  integrity sha512-dtz/5dt7UBIkWZcVE8i4rAHjr1t82MnfxHSvkNbLy6lBfGM8hqwS0g8Z0PUZUE1ytMvfKjv+olgCZASrjGfhFA==
+eos-transit-whalevault-provider@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit-whalevault-provider/-/eos-transit-whalevault-provider-4.0.7.tgz#5c4702fecdfaea7dbccd3d37b60c14532505263d"
+  integrity sha512-2fJdPkDQmuTIIb8f0g5No8kYrpCwtZuPrN5HcYgCKUtXOn+HRDoK1B4m1lf2QbO7XM3HCD9o8LHW+qnXHPC21g==
   dependencies:
-    eos-transit "^4.0.5"
+    eos-transit "^4.0.7"
     eosjs "^20.0.0"
 
-eos-transit@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/eos-transit/-/eos-transit-4.0.5.tgz#68f578077a54451145d32702d40f5625be6d1a55"
-  integrity sha512-NRNvBv9ENeDZAwzV2jaVLALqiI3JrfXJPPDf7uZIIVzfru9VImjTMCLYLXMourgzeWOkexzOVnUE4/klq0CIFQ==
+eos-transit@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eos-transit/-/eos-transit-4.0.7.tgz#ae1478b25629af1fd1f2f57cbc52a79bfa3dc47d"
+  integrity sha512-QQukVxonq9Jw2WRFejXG0YeHhPg/gIOn3wNT74qXNtrkO01Ml96bCOq2P2cPd/O1y7pXwUxFSBmtSFyYtqWXdw==
   dependencies:
+    "@types/uuid" "^7.0.3"
     eosjs "^20.0.0"
     uuid "^3.3.2"
 
-eosio-signing-request@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/eosio-signing-request/-/eosio-signing-request-1.1.2.tgz#846bbc71cc271edbab993e26d1d6c6cce2f6ebca"
-  integrity sha512-/trIwR20u24E58Y/AnAXiNyV5swHXZ+GeRgnQ403gMjAC0gkd7EmRl/dXYiRlhyPIj5uu0p5rEfASX2jCOe//Q==
+eosio-signing-request@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/eosio-signing-request/-/eosio-signing-request-1.2.2.tgz#04c8d012a25ef473aeaaedc7359f4ab565c81347"
+  integrity sha512-Xffw6fK+gv++19vBdULS7mlu4V1Ix88fk0UIuGn1whlJ6RiKaH9qhUlVWMj41e8uBxx8iFAsJG/VIKw3Nzy2bw==
   dependencies:
     eosjs "^20.0.0"
     fast-sha256 "^1.1.1"
@@ -13578,10 +13606,10 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
-uuid@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
-  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
+uuid@^8.1.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@2.0.3:
   version "2.0.3"
@@ -14179,10 +14207,10 @@ ws@^6.1.0, ws@^6.1.2:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.2.3:
-  version "7.2.3"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.2.3.tgz#a5411e1fb04d5ed0efee76d26d5c46d830c39b46"
-  integrity sha512-HTDl9G9hbkNDk98naoR/cHDws7+EyYMOdL1BmjsZXRUjf7d+MficC4B7HLUPlSiho0vg+CWKrGIt/VJBd1xunQ==
+ws@^7.2.5:
+  version "7.5.9"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
+  integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
 
 x-is-string@^0.1.0:
   version "0.1.0"

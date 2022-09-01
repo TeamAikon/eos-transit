@@ -16,7 +16,9 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "watch": {
     "build:electron": "src/**/*.*"
@@ -58,7 +60,8 @@
     "react-onclickoutside": "^6.7.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@types/jest": "24.0.13",
@@ -82,5 +85,6 @@
     "react,create-react-app,cra,craco,electron,electron-builder"
   ],
   "author": "Andrew Rapo <andrew@wwlib.org> (http://wwlib.org/)",
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
