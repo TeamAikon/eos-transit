@@ -100,7 +100,7 @@ export interface WalletProvider {
 	disconnect(): Promise<any>;
 	login(accountName?: string, authorization?: string, index?: number, key?: string): Promise<WalletAuth>;
 	logout(accountName?: string): Promise<any>;
-	signArbitrary(data: string, userMessage: string): Promise<string>;
+	signArbitrary(data: string, userMessage: string, metadata?: any): Promise<string>;
 }
 
 export type MakeWalletProviderFn = (network: NetworkConfig) => WalletProvider;
@@ -159,7 +159,7 @@ export interface Wallet {
 	fetchAccountInfo(accountName?: string): Promise<AccountInfo>;
 	terminate(): Promise<boolean>;
 	subscribe(listener: StateListener<WalletState>): StateUnsubscribeFn;
-	signArbitrary(data: string, userMessage: string): Promise<string>;
+	signArbitrary(data: string, userMessage: string, metadata?: any): Promise<string>;
 }
 
 // Wallet access context

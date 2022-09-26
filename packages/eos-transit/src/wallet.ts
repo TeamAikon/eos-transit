@@ -346,8 +346,8 @@ export function initWallet(walletProvider: WalletProvider, ctx: WalletAccessCont
 		});
 	}
 
-	function signArbitrary(data: string, userMessage: string): Promise<string> {
-		return walletProvider.signArbitrary(data, userMessage);
+	function signArbitrary(data: string, userMessage: string, metadata?: any): Promise<string> {
+		return walletProvider.signArbitrary(data, userMessage, metadata);
 	}
 
 	const wallet: Wallet = {
