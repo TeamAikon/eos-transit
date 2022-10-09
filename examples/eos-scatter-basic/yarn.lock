@@ -669,7 +669,7 @@ async-eventemitter@^0.2.2:
   dependencies:
     async "^2.4.0"
 
-"async-eventemitter@github:ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c":
+async-eventemitter@ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c:
   version "0.2.3"
   resolved "https://codeload.github.com/ahultgren/async-eventemitter/tar.gz/fa06e39e56786ba541c180061dbf2c0a5bbf951c"
   dependencies:
@@ -4055,9 +4055,10 @@ scatter-js@^2.5.2:
     socket.io-client "^2.1.1"
     web3-provider-engine "^14.0.6"
 
-scatterjs-core@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/scatterjs-core/-/scatterjs-core-1.1.1.tgz#61247d9cb804320d3c3a552d6234537a7de62cbe"
+scatterjs-core@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/scatterjs-core/-/scatterjs-core-1.3.0.tgz#93daee499b262d679f6a005c3d0e56790f51e208"
+  integrity sha512-CUqjnig4IcMb4XhZyYfMz4owW1h1kUxNvmPyqQXAZERNra8gWXkncDTboGQZFSV3SPm+9ZEynCqfv31YrEh8TQ==
   dependencies:
     create-hash "^1.2.0"
     es6-promise "^4.2.4"
